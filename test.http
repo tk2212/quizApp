@@ -1,0 +1,81 @@
+# ## POST ####
+# POST    http://localhost:4004/odata/v4/quiz/Quiz
+# Content-Type: application/json
+# x-qos:0
+
+# {
+#     "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#     "title": "SAP BPA Quiz 10",
+#     "conditionsID":{
+#         "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#         "quizEndTime": "07:59:59",
+#         "quizDate": "2023-12-11",
+#         "quizNoQues": 10,
+#         "quizFullMarks": 100,
+#         "quizPassMarks": 60,
+#         "LearningSP": "2023-11-01",
+#         "LearningEP": "2023-12-11"
+#     },
+#     "questions":[{
+#         "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#         "quizID": null,
+#         "content": "What is SAP BPA?",
+#         "score": 10,
+#         "answers":[{
+#             "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#             "options": [
+#                 {
+#                 "option": "BPA",
+#                 "correctOption": true
+#                 },
+#                 {
+#                     "option":"BPA2",
+#                     "correctOption": true
+#                 }
+#             ]}]
+#     }]
+# }
+
+# POST Users###
+# POST     http://localhost:4004/odata/v4/quiz/Users
+# Content-Type: application/json
+# x-qos:0
+
+# {
+#     "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#     "name": "Tejas",
+#     "score": 100,
+#     "resAnswer": {
+#         "ID": "cf4450cf-3c56-4a81-b819-02bd7916f760",
+#         "title": "SAP BPA Quiz 10",
+#         "response": [{
+#             "questions": "What is SAP BPA",
+#             "answer": "Build Process Automation"
+#         }]
+#     }
+# }
+
+## POST Questions ##
+DELETE     http://localhost:4004/odata/v4/quiz/Quiz(ID='cf4450cf-3c56-4a81-b819-02bd7916f790')
+Content-Type: application/json
+x-qos:0
+
+{
+        "ID": "cf4450cf-3c56-4a81-b819-02bd7916f7",
+        "quizID": "cf4450cf-3c56-4a81-b819-02bd7916f7",
+        "content": "What is SAP BPA?",
+        "score": 10,
+        "answers":[{
+            "ID": "cf4450cf-3c56-4a81-b819-02bd7916f7",
+            "options": [
+                {
+                "option": "BPA",
+                "correctOption": true
+                },
+                {
+                    "option":"BPA2",
+                    "correctOption": true
+                }
+            ]
+        }]
+}

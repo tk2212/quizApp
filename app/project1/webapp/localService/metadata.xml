@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="QuizService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Quiz" EntityType="QuizService.Quiz">
+                    <NavigationPropertyBinding Path="questions" Target="Questions"/>
+                    <NavigationPropertyBinding Path="conditionsID" Target="Conditions"/>
+                </EntitySet>
+                <EntitySet Name="Users" EntityType="QuizService.Users">
+                    <NavigationPropertyBinding Path="resAnswer" Target="Response"/>
+                </EntitySet>
+                <EntitySet Name="Answers" EntityType="QuizService.Answers">
+                    <NavigationPropertyBinding Path="answerID" Target="Questions"/>
+                </EntitySet>
+                <EntitySet Name="Questions" EntityType="QuizService.Questions">
+                    <NavigationPropertyBinding Path="quiz" Target="Quiz"/>
+                    <NavigationPropertyBinding Path="answers" Target="Answers"/>
+                </EntitySet>
+                <EntitySet Name="Response" EntityType="QuizService.Response">
+                    <NavigationPropertyBinding Path="responseID" Target="Users"/>
+                </EntitySet>
+                <EntitySet Name="Conditions" EntityType="QuizService.Conditions">
+                    <NavigationPropertyBinding Path="quizCond" Target="Quiz"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Quiz">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="title" Type="Edm.String"/>
+                <NavigationProperty Name="questions" Type="Collection(QuizService.Questions)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="conditionsID" Type="QuizService.Conditions">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Users">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="score" Type="Edm.Int32"/>
+                <NavigationProperty Name="resAnswer" Type="QuizService.Response">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Answers">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="answerID" Type="QuizService.Questions">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="options" Type="Collection(QuizService.Answers_options)" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Questions">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="quizID" Type="Edm.String"/>
+                <NavigationProperty Name="quiz" Type="QuizService.Quiz">
+                    <ReferentialConstraint Property="quizID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="answers" Type="Collection(QuizService.Answers)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <Property Name="content" Type="Edm.String"/>
+                <Property Name="score" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Response">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="title" Type="Edm.String"/>
+                <Property Name="response" Type="Collection(QuizService.Response_response)" Nullable="false"/>
+                <NavigationProperty Name="responseID" Type="QuizService.Users">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Conditions">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="quizCond" Type="QuizService.Quiz">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="quizEndTime" Type="Edm.TimeOfDay"/>
+                <Property Name="quizDate" Type="Edm.Date"/>
+                <Property Name="quizNoQues" Type="Edm.Int32"/>
+                <Property Name="quizFullMarks" Type="Edm.Int32"/>
+                <Property Name="quizPassMarks" Type="Edm.Int32"/>
+                <Property Name="LearningSP" Type="Edm.Date"/>
+                <Property Name="LearningEP" Type="Edm.Date"/>
+            </EntityType>
+            <ComplexType Name="Answers_options">
+                <Property Name="option" Type="Edm.String"/>
+                <Property Name="correctOption" Type="Edm.Boolean"/>
+            </ComplexType>
+            <ComplexType Name="Response_response">
+                <Property Name="questions" Type="Edm.String"/>
+                <Property Name="answer" Type="Edm.String"/>
+            </ComplexType>
+            <Annotations Target="QuizService.Quiz/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="QuizService.Quiz/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="QuizService.Quiz/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="QuizService.Quiz/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="QuizService.Users/createdAt">
+                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                        </Annotations>
+                                        <Annotations Target="QuizService.Users/createdBy">
+                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                </Annotations>
+                                                <Annotations Target="QuizService.Users/modifiedAt">
+                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="QuizService.Users/modifiedBy">
+                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                            </Annotations>
+                                                            <Annotations Target="QuizService.Answers/createdAt">
+                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                </Annotations>
+                                                                <Annotations Target="QuizService.Answers/createdBy">
+                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                    <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                        </Annotations>
+                                                                        <Annotations Target="QuizService.Answers/modifiedAt">
+                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                            </Annotations>
+                                                                            <Annotations Target="QuizService.Answers/modifiedBy">
+                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="QuizService.Questions/createdAt">
+                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations Target="QuizService.Questions/createdBy">
+                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations Target="QuizService.Questions/modifiedAt">
+                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations Target="QuizService.Questions/modifiedBy">
+                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="QuizService.Response/createdAt">
+                                                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations Target="QuizService.Response/createdBy">
+                                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations Target="QuizService.Response/modifiedAt">
+                                                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations Target="QuizService.Response/modifiedBy">
+                                                                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="QuizService.Conditions/createdAt">
+                                                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                                                                        </Annotations>
+                                                                                                                                        <Annotations Target="QuizService.Conditions/createdBy">
+                                                                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                                                                </Annotations>
+                                                                                                                                                <Annotations Target="QuizService.Conditions/modifiedAt">
+                                                                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                                                                    </Annotations>
+                                                                                                                                                    <Annotations Target="QuizService.Conditions/modifiedBy">
+                                                                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                                                                            </Annotations>
+                                                                                                                                                        </Schema>
+                                                                                                                                                    </edmx:DataServices>
+                                                                                                                                                </edmx:Edmx>
