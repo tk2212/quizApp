@@ -16,11 +16,15 @@ sap.ui.define(
       var controller;
       var fragmentControls = {};
       var oDataModel;
+      var quizID;
+
       return Controller.extend("project1.controller.View1", {
         onInit: function () {
           oDataModel = this.getOwnerComponent().getModel();
           this.selectedPaths = [];
           controller = this;
+
+          quizID = crypto.randomUUID(16).toString("hex");
   
           // Load data from data.json using a JSONModel
           var dataModel = new JSONModel();
@@ -329,8 +333,10 @@ sap.ui.define(
                 }] 
               }
 
+              var questionID = oEvent.getSource().getModel().getData().Quiz[0].Questions[1].ID;
+
               $.ajax({
-                url: oDataModel.getServiceUrl() + "Questions(ID='cf4450cf-3c56-4a81-b819-02bd7916f790')",
+                url: oDataModel.getServiceUrl() + "Questions(ID='"+ questionID + "')",
                 method: "PUT",
                 data:JSON.stringify(updatedData),
                 contentType: "application/json",
@@ -345,8 +351,12 @@ sap.ui.define(
             }
           } else {
             // Adding new question
+            var questionID = crypto.randomUUID(16).toString("hex");
+            var answersID = crypto.randomUUID(16).toString("hex");
+
             var oNewQuestion = {
               SlNo: aQuestions.length + 1,
+              ID: questionID,
               Question: this.model.getProperty("/fragmentData/Question"),
               NumberOfOptions: this.model.getProperty("/fragmentData/NumberOfOptions") || 2,
               Options: []
@@ -375,12 +385,12 @@ sap.ui.define(
             aQuestions.push(oNewQuestion);
 
             var QAData = {
-              ID: "cf4450cf-3c56-4a81-b819-02bd7916f790",
-              quizID: "cf4450cf-3c56-4a81-b819-02bd7916f790",
+              ID: questionID,
+              quizID: quizID,
               content: oNewQuestion.Question,
               score: 10,
               answers:[{
-                  ID: "cf4450cf-3c56-4a81-b819-02bd7916f790",
+                  ID: answersID,
                   options: oNewQuestion.Options
                 }]
             }
@@ -392,12 +402,13 @@ sap.ui.define(
               data: JSON.stringify(QAData),
               success: function () {
                 alert("success");
+                oModel.setProperty("/Quiz/0/Questions", aQuestions);
               },
             });
             
             MessageToast.show("Question Saved Successfully.", { duration: 1000 });
           }  
-          oModel.setProperty("/Quiz/0/Questions", aQuestions);
+          // oModel.setProperty("/Quiz/0/Questions", aQuestions);
           this.closeDialog();
         },
   
@@ -418,7 +429,9 @@ sap.ui.define(
           var oTable = this.byId("idProductsTable");
           var oModel = this.getView().getModel();
           var aQuestions = oModel.getProperty("/Quiz/0/Questions");
-      
+
+          var questionID = oEvent.getSource().getModel().getData().Quiz[0].Questions[1].ID;
+          
           // Get the selected paths
           var aSelectedPaths = this.selectedPaths;
       
@@ -429,24 +442,23 @@ sap.ui.define(
                   aQuestions.splice(iIndex, 1);
               }
           });
-
-          //Perform delete request in backend
-          $.ajax({
-            url: oDataModel.getServiceUrl() + "Questions(ID='cf4450cf-3c56-4a81-b819-02bd7916f790')",
-            method: "DELETE",
-            contentType: "application/json",
-            success: function () {
-              alert("Successfully Deleted");
-            },
-          })
       
           // Update the SlNo property based on the updated array
           aQuestions.forEach(function (oQuestion, index) {
               oQuestion.SlNo = index + 1;
           });
-      
-          // Update the model
-          oModel.setProperty("/Quiz/0/Questions", aQuestions);
+
+          //Perform delete request in backend
+          $.ajax({
+            url: oDataModel.getServiceUrl() + "Questions(ID='"  + questionID + "'" + ")",
+            method: "DELETE",
+            contentType: "application/json",
+            success: function () {
+              // Update the model
+              oModel.setProperty("/Quiz/0/Questions", aQuestions);
+              alert("Successfully Deleted");
+            },
+          })
       
           // Clear selections in the table
           oTable.clearSelection();
@@ -457,10 +469,10 @@ sap.ui.define(
 
       handleWizardSave: function(){
         var quizDetails = {
-          ID: "cf4450cf-3c56-4a81-b819-02bd7916f790",
+          ID: quizID,
           title: this.getView().byId("QuizTopic").getValue(),
           conditionsID:{
-              ID: "cf4450cf-3c56-4a81-b819-02bd7916f760",
+              ID: quizID,
               quizEndTime: this.getView().byId("timePicker").getValue(),
               quizDate: "2023-12-11",
               quizNoQues: parseInt(this.getView().byId("fullMarks").getValue()),

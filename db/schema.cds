@@ -36,7 +36,7 @@ entity quizQuestions : managed {
     // questionID: Association to one quiz on questionID.ID;
     quiz: Association to one quiz on quiz.ID = quizID;
     // answers: Association to one quizAnswers on answers.ID = $self.ID;
-    answers: Composition of many quizAnswers on answers.ID = $self.ID;
+    answers: Composition of many quizAnswers on answers.questionID = $self.ID;
     content: String;
     score: Integer;
 }
@@ -44,7 +44,8 @@ entity quizQuestions : managed {
 entity quizAnswers : managed {
     // question: Association to one quizQuestions on question.answers = $self;
     key ID: String;
-    answerID: Association to one quizQuestions on answerID.ID = $self.ID;
+    questionID: String;
+    answerID: Association to one quizQuestions on answerID.ID = questionID;
     // answerID: Composition of quizQuestions on answerID.ID = $self.ID;
     options: array of {
         option: String;
