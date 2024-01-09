@@ -2,26 +2,7 @@
     "Quiz":
         [
             {
-                "Topic": "",
-                "Time": "",
-                "NumberOfQuestions": "",
-                "FullMarks": "",
-                "PassMarks": "",
-                "LearningStartPeriod": "",
-                "LearningEndPeriod": "",
-                "Questions": [
-                    {
-                        "SlNo": "",
-                        "Question": "",
-                        "NumberOfOptions": "",
-                        "Options":[
-                            {
-                                "option": "",
-                                "correctOption": "" 
-                            }
-                        ]
-                    }
-                ]
+                "Questions": []
             }    
         ]
 }

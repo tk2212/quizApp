@@ -63,3 +63,5 @@ entity userResponse : managed {
     };
     responseID: Association to one users on responseID.ID = $self.ID;
 }
+
+//Use Quiz id to link the user response to a particular quiz

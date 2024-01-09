@@ -6,12 +6,17 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^7",
+    "@sap/cds": "^7.5.2",
     "@sap/cds-dk": "^7.5.0",
-    "express": "^4"
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "mta": "^1.0.6",
+    "passport": "^0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
     "@sap/ux-specification": "^1.120.1",
     "sqlite3": "^5.1.6"
   },
@@ -25,6 +30,11 @@
         "kind": "sqlite",
         "credentials": {
           "database": "db/com-mindset-quiz.db"
+        }
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana"
         }
       }
     }
