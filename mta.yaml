@@ -1,7 +1,64 @@
-_schema-version: '3.1'
+_schema-version: "3.1"
 ID: quizapp
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
+modules:
+  - name: quizapp-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: quizapp-auth
+      - name: quizapp-db
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+  - name: quizapp
+    type: approuter.nodejs
+    path: app/
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv-api
+          url: ~{srv-url}
+      - name: quizapp-auth
+    parameters:
+      disk-quota: 256M
+      keep-existing-routes: true
+      memory: 256M
+  - name: quizapp-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: quizapp-db
+    parameters:
+      buildpack: nodejs_buildpack
+resources:
+  - name: quizapp-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: quizapp
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+  - name: quizapp-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: quizapp_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
 parameters:
   enable-parallel-deployments: true
 build-parameters:
@@ -9,58 +66,3 @@ build-parameters:
     - builder: custom
       commands:
         - npx cds build --production
-modules:
-  - name: quizapp-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      # - name: quizapp-auth
-      - name: quizapp-db
-
-  - name: quizapp
-    type: approuter.nodejs
-    path: app/
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
-      # - name: quizapp-auth
-
-  - name: quizapp-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: quizapp-db
-
-resources:
-  # - name: quizapp-auth
-  #   type: org.cloudfoundry.managed-service
-  #   parameters:
-  #     service: xsuaa
-  #     service-plan: application
-  #     path: ./xs-security.json
-  #     config:
-  #       xsappname: quizapp
-  #       tenant-mode: dedicated
-  - name: quizapp-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared

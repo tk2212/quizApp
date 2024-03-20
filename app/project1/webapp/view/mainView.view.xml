@@ -1,0 +1,332 @@
+<mvc:View
+    xmlns:form="sap.ui.layout.form"
+    xmlns:smartForm="sap.ui.comp.smartform"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    height="100%"
+    controllerName="project1.controller.mainView"
+>
+    <NavContainer id="wizardNavContainer">
+        <pages>
+            <Page
+                id="wizardContentPage"
+                showHeader="false"
+            >
+                <content>
+                    <Wizard
+                        id="CreateProductWizard"
+                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                        complete="wizardCompletedHandler"
+                    >
+                        <WizardStep
+                            id="ProductTypeStep"
+                            title="Quiz Conditions"
+                            validated="true"
+                        >
+                            <MessageStrip
+                                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd"
+                                text="Define all the relevant conditions for the quiz"
+                                showIcon="true"
+                            />
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                            >
+                                <Label
+                                    text="Time"
+                                    required="true"
+                                />
+                                <TimePicker
+                                    id="timePicker"
+                                    change="handleTimeChange"
+                                    width="50%"
+                                    value="{quizDetail>/endTime}"
+				                    valueFormat="HH:mm:ss"
+                                    displayFormat="HH:mm:ss"
+                                />
+                                <Label
+                                    text="Number of questions"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter the number of questions"
+                                    type="Number"
+                                    placeholder="Enter the number of questions"
+                                    width="50%"
+                                    value = "{quizDetail>/noOfQues}"
+                                />
+                                <Label
+                                    text="Topic"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter the topic"
+                                    type="Text"
+                                    id="QuizTopic"
+                                    placeholder="Enter the topic"
+                                    width="50%"
+                                    value = "{quizDetail>/title}"
+                                />
+                                <Label
+                                    text="Full Marks"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter full marks"
+                                    type="Number"
+                                    id="fullMarks"
+                                    placeholder="Enter full marks"
+                                    width="50%"
+                                    value = "{quizDetail>/fullMarks}"
+                                />
+                                <Label
+                                    text="Pass Marks"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter pass marks"
+                                    id="passMarks"
+                                    type="Text"
+                                    placeholder="Enter pass marks"
+                                    width="50%"
+                                    value = "{quizDetail>/passMarks}"
+                                />
+                                <Label
+                                    text="Learning Start Period"
+                                    required="true"
+                                />
+                                <DatePicker
+                                    placeholder="Enter the Learning Start Period"
+                                    width="50%"
+                                    id="learningSP"
+                                    value="{ 'path':'quizDetail>/learningSP', 'type':'sap.ui.model.type.Date', 'formatOptions': { source: {
+      pattern: 'yyyy-MM-ddTHH:mm:ss'
+    } } }"
+                                />
+                                <Label
+                                    text="Learning End Period"
+                                    required="true"
+                                />
+                                <DatePicker
+                                    placeholder="Enter the Learning end period"
+                                    id="learningEP"
+                                    width="50%"
+                                    value="{ 'path':'quizDetail>/learningEP', 'type':'sap.ui.model.type.Date', 'formatOptions': { source: {
+      pattern: 'yyyy-MM-ddTHH:mm:ss'
+    } } }"
+                                />
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="ProductInfoStep"
+                            validated="false"
+                            title="Questions and Answers"
+                            activate="additionalInfoValidation"
+                        >
+                            <MessageStrip
+                                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd"
+                                text="Define questions and there respective answers"
+                                showIcon="true"
+                            />
+                            <Table
+                                id="idQuestionsTable"
+                                mode="MultiSelect"
+                                selectionChange="onSelectionChange"
+                                inset="false"
+                                items="{ path: 'quizDetail>/questions', sorter: { path: 'Name' } }"
+                            >
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title
+                                            text="Exam Table"
+                                            level="H2"
+                                        />
+                                        <ToolbarSpacer
+                                            id="_IDGenToolbarSpacer1"
+                                        />
+                                        <Button
+                                            type="Emphasized"
+                                            text="Add Question"
+                                            press="onPressAddQuestion"
+                                        />
+                                        <Button
+                                            text="Delete"
+                                            press="onDeleteQuestion"
+                                            enabled="{= ${idProductsTable>/selectedContexts}.length > 0}"
+                                        />
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column
+                                        hAlign="Begin"
+                                        width="12em"
+                                        minScreenWidth="Tablet"
+                                        demandPopin="true"
+                                    >
+                                        <Text text="Question" />
+                                    </Column>
+                                    <Column
+                                        minScreenWidth="Tablet"
+                                        demandPopin="true"
+                                        hAlign="Center"
+                                    >
+                                        <Text text="No of Options" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 1" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 2" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 3" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 4" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 5" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Option 6" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Edit" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem
+                                        vAlign="Middle"
+                                        type="Navigation"
+                                    >
+                                        <cells>
+                                            <Text text="{quizDetail>content}" />
+                                            <Text text="{quizDetail>noOfOptions}" />
+                                            <CheckBox
+                                                visible="{= ${quizDetail>options/0/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/0/option}"
+                                                selected="{quizDetail>options/0/correctOption}"
+                                            />
+                                            <CheckBox
+                                                selected="{quizDetail>options/1/correctOption}"
+                                                visible="{= ${quizDetail>options/1/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/1/option}"
+                                            />
+                                            <CheckBox
+                                                selected="{quizDetail>options/2/correctOption}"
+                                                visible="{= ${quizDetail>options/2/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/2/option}"
+                                            />
+                                            <CheckBox
+                                                selected="{quizDetail>options/3/correctOption}"
+                                                visible="{= ${quizDetail>options/3/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/3/option}"
+                                            />
+                                            <CheckBox
+                                                selected="{quizDetail>options/4/correctOption}"
+                                                visible="{= ${quizDetail>options/4/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/4/option}"
+                                            />
+                                            <CheckBox
+                                                selected="{quizDetail>options/5/correctOption}"
+                                                visible="{= ${quizDetail>options/5/option} !== undefined}"
+                                                editable="false"
+                                                text="{quizDetail>options/5/option}"
+                                            />
+                                            <Button
+                                                text="edit"
+                                                press="onPressEditQuestion"
+                                            />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </WizardStep>
+                    </Wizard>
+                </content>
+                <footer>
+                    <OverflowToolbar>
+                        <ToolbarSpacer />
+                        <Button
+                            type="Emphasized"
+                            text="Draft"
+                            press="onDraftButtonPress"
+                        />
+                        <Button
+                            type="Emphasized"
+                            text="Save"
+                            press="onSaveButtonPress"
+                        />
+                        <Button
+                            text="Cancel"
+                            press="onCancelButtonPress"
+                        />
+                    </OverflowToolbar>
+                </footer>
+            </Page>
+            <Page
+                id="wizardReviewPage"
+                showHeader="false"
+            >
+                <content>
+                    <form:SimpleForm
+                        title="1. Product Type"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="Type" />
+                            <Text
+                                id="ProductTypeChosen"
+                                text="{/productType}"
+                            />
+                            <Link
+                                press="editStepOne"
+                                text="Edit"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+                    <form:SimpleForm
+                        title="2. Product Information"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="Name" />
+                            <Text
+                                id="ProductNameChosen"
+                                text="{/productName}"
+                            />
+                            <Label text="Weight" />
+                            <Text
+                                id="ProductWeightChosen"
+                                text="{/productWeight}"
+                            />
+                            <Label text="Manufacturer" />
+                            <Text
+                                id="ProductManufacturerChosen"
+                                text="{/productManufacturer}"
+                            />
+                            <Label text="Description" />
+                            <Text
+                                id="ProductDescriptionChosen"
+                                text="{/productDescription}"
+                            />
+                            <Link
+                                press="editStepTwo"
+                                text="Edit"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+                </content>
+            </Page>
+        </pages>
+    </NavContainer>
+</mvc:View>

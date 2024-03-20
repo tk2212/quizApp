@@ -104,6 +104,13 @@
           "target": [
             "TargetView1"
           ]
+        },
+        {
+          "name": "RouteMainView",
+          "pattern": "RouteMainView/:index:",
+          "target": [
+            "TargetMainView"
+          ]
         }
       ],
       "targets": {
@@ -113,6 +120,13 @@
           "clearControlAggregation": false,
           "viewId": "View1",
           "viewName": "View1"
+        },
+        "TargetMainView": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "mainView",
+          "viewName": "mainView"
         }
       }
     },

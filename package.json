@@ -9,6 +9,7 @@
     "@sap/cds": "^7.5.2",
     "@sap/cds-dk": "^7.5.0",
     "@sap/cds-hana": "^2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/xssec": "^3",
     "express": "^4",
     "mta": "^1.0.6",
@@ -33,9 +34,8 @@
         }
       },
       "[production]": {
-        "db": {
-          "kind": "hana"
-        }
+        "db": "hana",
+        "auth": "xsuaa"
       }
     }
   }

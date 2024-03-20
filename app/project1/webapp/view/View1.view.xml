@@ -1,334 +1,95 @@
 <mvc:View
-    xmlns:form="sap.ui.layout.form"
-    xmlns:smartForm="sap.ui.comp.smartform"
-    xmlns:core="sap.ui.core"
-    xmlns:u="sap.ui.unified"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    height="100%"
     controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
+		xmlns="sap.m"
+		xmlns:f="sap.f"
+		xmlns:fb="sap.ui.comp.filterbar"
+		xmlns:svm="sap.ui.comp.smartvariants"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
 >
-    <NavContainer id="wizardNavContainer">
-        <pages>
-            <Page
-                id="wizardContentPage"
-                showHeader="false"
-            >
-                <content>
-                    <Wizard
-                        id="CreateProductWizard"
-                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                        complete="wizardCompletedHandler"
-                    >
-                        <WizardStep
-                            id="ProductTypeStep"
-                            title="Quiz Conditions"
-                            validated="true"
-                        >
-                            <MessageStrip
-                                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd"
-                                text="Define all the relevant conditions for the quiz"
-                                showIcon="true"
-                            />
-                            <form:SimpleForm
-                                editable="true"
-                                layout="ResponsiveGridLayout"
-                            >
-                                <Label
-                                    text="Time"
-                                    required="true"
-                                />
-                                <TimePicker
-                                    id="timePicker"
-                                    change="handleTimeChange"
-                                    width="50%"
-                                />
-                                <Label
-                                    text="Number of questions"
-                                    required="true"
-                                />
-                                <Input
-                                    valueStateText="Enter the number of questions"
-                                    type="Number"
-                                    placeholder="Enter the number of questions"
-                                    width="50%"
-                                />
-                                <Label
-                                    text="Topic"
-                                    required="true"
-                                />
-                                <Input
-                                    valueStateText="Enter the topic"
-                                    type="Text"
-                                    id="QuizTopic"
-                                    placeholder="Enter the topic"
-                                    width="50%"
-                                />
-                                <Label
-                                    text="Full Marks"
-                                    required="true"
-                                />
-                                <Input
-                                    valueStateText="Enter full marks"
-                                    type="Number"
-                                    id="fullMarks"
-                                    placeholder="Enter full marks"
-                                    width="50%"
-                                />
-                                <Label
-                                    text="Pass Marks"
-                                    required="true"
-                                />
-                                <Input
-                                    valueStateText="Enter pass marks"
-                                    id="passMarks"
-                                    type="Text"
-                                    placeholder="Enter pass marks"
-                                    width="50%"
-                                />
-                                <Label
-                                    text="Learning Start Period"
-                                    required="true"
-                                />
-                                <DatePicker
-                                    placeholder="Enter the Learning Start Period"
-                                    width="50%"
-                                    id="learningSP"
-                                    value="{ 'path':'/valueDP1', 'type':'sap.ui.model.type.Date', 'formatOptions': { 'pattern': 'yyyy-MM-dd' } }"
-                                />
-                                <Label
-                                    text="Learning End Period"
-                                    required="true"
-                                />
-                                <DatePicker
-                                    placeholder="Enter the Learning end period"
-                                    id="learningEP"
-                                    width="50%"
-                                    value="{ 'path':'/valueDP2', 'type':'sap.ui.model.type.Date', 'formatOptions': { 'pattern': 'yyyy-MM-dd' } }"
-                                />
-                            </form:SimpleForm>
-                        </WizardStep>
-                        <WizardStep
-                            id="ProductInfoStep"
-                            validated="false"
-                            title="Questions and Answers"
-                            activate="additionalInfoValidation"
-                        >
-                            <MessageStrip
-                                class="sapUiSmallMarginBottom sapUiSmallMarginBegin sapUiSmallMarginEnd"
-                                text="Define questions and there respective answers"
-                                showIcon="true"
-                            />
-                            <Table
-                                id="idProductsTable"
-                                mode="MultiSelect"
-                                selectionChange="onSelectionChange"
-                                inset="false"
-                                items="{ path: '/Quiz/0/Questions', sorter: { path: 'Name' } }"
-                            >
-                                <headerToolbar>
-                                    <OverflowToolbar>
-                                        <Title
-                                            text="Exam Table"
-                                            level="H2"
-                                        />
-                                        <ToolbarSpacer
-                                            id="_IDGenToolbarSpacer1"
-                                        />
-                                        <Button
-                                            type="Emphasized"
-                                            text="Add Question"
-                                            press="onPressAddQuestion"
-                                        />
-                                        <Button
-                                            text="Delete"
-                                            press="onDeleteQuestion"
-                                            enabled="{= ${idProductsTable>/selectedContexts}.length > 0}"
-                                        />
-                                    </OverflowToolbar>
-                                </headerToolbar>
-                                <columns>
-                                    <Column>
-                                        <Text text="Sl No" />
-                                    </Column>
-                                    <Column
-                                        hAlign="Begin"
-                                        width="12em"
-                                        minScreenWidth="Tablet"
-                                        demandPopin="true"
-                                    >
-                                        <Text text="Question" />
-                                    </Column>
-                                    <Column
-                                        minScreenWidth="Tablet"
-                                        demandPopin="true"
-                                        hAlign="Center"
-                                    >
-                                        <Text text="No of Questions" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 1" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 2" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 3" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 4" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 5" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Option 6" />
-                                    </Column>
-                                    <Column hAlign="End">
-                                        <Text text="Edit" />
-                                    </Column>
-                                </columns>
-                                <items>
-                                    <ColumnListItem
-                                        vAlign="Middle"
-                                        type="Navigation"
-                                    >
-                                        <cells>
-                                            <Text text="{SlNo}" />
-                                            <Text text="{Question}" />
-                                            <Text text="{NumberOfOptions}" />
-                                            <CheckBox
-                                                visible="{= ${Options/1/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/0/option}"
-                                                selected="{Options/0/correctOption}"
-                                            />
-                                            <CheckBox
-                                                selected="{Options/1/correctOption}"
-                                                visible="{= ${Options/1/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/1/option}"
-                                            />
-                                            <CheckBox
-                                                selected="{Options/2/correctOption}"
-                                                visible="{= ${Options/2/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/2/option}"
-                                            />
-                                            <CheckBox
-                                                selected="{Options/3/correctOption}"
-                                                visible="{= ${Options/3/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/3/option}"
-                                            />
-                                            <CheckBox
-                                                selected="{Options/4/correctOption}"
-                                                visible="{= ${Options/4/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/4/option}"
-                                            />
-                                            <CheckBox
-                                                selected="{Options/5/correctOption}"
-                                                visible="{= ${Options/5/option} !== undefined}"
-                                                editable="false"
-                                                text="{Options/5/option}"
-                                            />
-                                            <Button
-                                                text="edit"
-                                                press="onPressEditQuestion"
-                                            />
-                                        </cells>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
-                        </WizardStep>
-                    </Wizard>
-                </content>
-                <footer>
-                    <OverflowToolbar>
-                        <ToolbarSpacer />
-                        <Button
-                            type="Emphasized"
-                            text="Save"
-                            press="handleWizardSave"
-                        />
-                        <Button
-                            text="Cancel"
-                            press="handleWizardCancel"
-                        />
-                    </OverflowToolbar>
-                </footer>
-            </Page>
-            <Page
-                id="wizardReviewPage"
-                showHeader="false"
-            >
-                <content>
-                    <form:SimpleForm
-                        title="1. Product Type"
-                        editable="false"
-                        layout="ResponsiveGridLayout"
-                    >
-                        <form:content>
-                            <Label text="Type" />
-                            <Text
-                                id="ProductTypeChosen"
-                                text="{/productType}"
-                            />
-                            <Link
-                                press="editStepOne"
-                                text="Edit"
-                            />
-                        </form:content>
-                    </form:SimpleForm>
-                    <form:SimpleForm
-                        title="2. Product Information"
-                        editable="false"
-                        layout="ResponsiveGridLayout"
-                    >
-                        <form:content>
-                            <Label text="Name" />
-                            <Text
-                                id="ProductNameChosen"
-                                text="{/productName}"
-                            />
-                            <Label text="Weight" />
-                            <Text
-                                id="ProductWeightChosen"
-                                text="{/productWeight}"
-                            />
-                            <Label text="Manufacturer" />
-                            <Text
-                                id="ProductManufacturerChosen"
-                                text="{/productManufacturer}"
-                            />
-                            <Label text="Description" />
-                            <Text
-                                id="ProductDescriptionChosen"
-                                text="{/productDescription}"
-                            />
-                            <Link
-                                press="editStepTwo"
-                                text="Edit"
-                            />
-                        </form:content>
-                    </form:SimpleForm>
-                </content>
-                <footer>
-                    <Bar>
-                        <contentRight>
-                            <Button
-                                text="Submit"
-                                press="handleWizardSubmit"
-                            />
-                            <Button
-                                text="Cancel"
-                                press="handleWizardCancel"
-                            />
-                        </contentRight>
-                    </Bar>
-                </footer>
-            </Page>
-        </pages>
-    </NavContainer>
+    <Page title="Exams">
+			<content>
+                <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search="onSearch" filterChange="onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem id="idSerachExamItem" name="title" label="Title" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input name = "title" placeholder="Search Exam"></Input>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem id = "idPrepStatusComboBox" name="draft" label="Preparation Status" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <MultiComboBox
+                                    name="draft"
+                                    selectionChange="onMultiComboBoxSelectionChange"
+                                >
+                                    <core:Item key="true" text="In Progress"/>
+                                    <core:Item key="false" text="Completed"/>
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+                <Toolbar
+                    id="toolbar1"
+                >
+                    <ToolbarSpacer />
+                    <Button text="Create New Exam" press="onPressAddExam" />
+                </Toolbar>
+				<Table
+					id="idQuizTable"
+					items="{
+						path: 'localModel>/Quiz'
+					}"
+                    selectionChange="onQuizTableSelectionChange"
+                    mode="SingleSelectMaster"
+				>
+					<columns>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Title"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="No Of Questions"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Full Marks"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Pass Marks"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Date"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="End Time"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Status"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Delete"/>
+						</Column>
+					</columns>
+
+					<items>
+						<ColumnListItem vAlign="Middle" >
+							<cells>
+								<!-- <ObjectIdentifier title="{Name}" text="{ProductId}" /> -->
+								<Text text="{localModel>title}" />
+								<Text text="{localModel>noOfQues}" />
+                                <Text text="{localModel>fullMarks}" />
+								<Text text="{localModel>passMarks}" />
+                                <Text text="{localModel>date}" />
+								<Text text="{localModel>endTime}" />
+                                <!-- <Text text="{= ${draft} === true ? 'In Progress': 'Completed'}" /> -->
+                                <Text text="{localModel>draft}" />
+								<Button icon = "sap-icon://delete" press="onPressDeleteItem"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+		</Page>
 </mvc:View>

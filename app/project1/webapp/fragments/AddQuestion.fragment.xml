@@ -14,7 +14,6 @@
             <l:content>
                 <f:SimpleForm
                     id="SimpleFormDisplay354"
-                    minWidth="1024"
                     maxContainerCols="2"
                     editable="false"
                     layout="ResponsiveGridLayout"
@@ -28,9 +27,9 @@
                     <f:content>
                         <Label text="Question" />
                         <TextArea id="idQuestion" 
-                        name="Question"
+                        name="content"
                         change="onFragmentInputChange"
-                        value="{/fragmentData/Question}"
+                        value="{quizDetail>/fragmentData/content}"
                         required="true"/>
 
                         <Label text="No of Options" />
@@ -38,77 +37,77 @@
                             id="idNoOfOptions"
                             min="2"
                             max="6"
-                            value="{/fragmentData/NumberOfOptions}"
+                            value="{quizDetail>/fragmentData/noOfOptions}"
                             width="6em"
-                            name="NumberOfOptions"
+                            name="noOfOptions"
                             change="onFragmentInputChange"
                         />
 
                         <Label text="Option1" />
-                        <Input id="idOption1" name = "option1" change="onFragmentInputChange" value="{/fragmentData/option1}" required="true"/>
-                        <CheckBox name="option1Selected" text="Correct" valueState="Success" selected="{/fragmentData/option1Selected}" />
+                        <Input id="idOption1" name = "0" change="onFragmentInputChange" value="{quizDetail>/fragmentData/options/0/option}" required="true"/>
+                        <CheckBox name="option1Selected" text="Correct" valueState="Success" selected="{quizDetail>/fragmentData/options/0/correctOption}" />
 
 
                         <Label text="Option2" />
-                        <Input id="idOption2" name = "option2" change="onFragmentInputChange" value="{/fragmentData/option2}" required="true"/>
-                        <CheckBox name = "option2Selected" text="Correct" valueState="Success" selected="{/fragmentData/option2Selected}" />
+                        <Input id="idOption2" name = "1" change="onFragmentInputChange" value="{quizDetail>/fragmentData/options/1/option}" required="true"/>
+                        <CheckBox name = "option2Selected" text="Correct" valueState="Success" selected="{quizDetail>/fragmentData/options/1/correctOption}" />
 
                         <Label
                             text="Option3"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 3}" 
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" 
                         />
                         <Input
                             id="idOption3"
-                            name = "option3"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 3}" 
+                            name = "2"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" 
                             change="onFragmentInputChange"
-                            value="{/fragmentData/option3}"
+                            value="{quizDetail>/fragmentData/options/2/option}"
                             required="true"
                         />
-                        <CheckBox name = "option3Selected" text="Correct" visible = "{= ${/fragmentData/NumberOfOptions} >= 3}" valueState="Success" selected="{/fragmentData/option3Selected}" />
+                        <CheckBox name = "option3Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" valueState="Success" selected="{quizDetail>/fragmentData/options/2/correctOption}" />
 
                         <Label
                             text="Option4"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 4}" 
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" 
                         />
                         <Input
                             id="idOption4"
-                            name = "option4"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 4}" 
+                            name = "3"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" 
                             change="onFragmentInputChange"
-                            value="{/fragmentData/option4}"
+                            value="{quizDetail>/fragmentData/options/3/option}"
                             required="true"
                         />
-                        <CheckBox name = "option4Selected" text="Correct" visible = "{= ${/fragmentData/NumberOfOptions} >= 4}" valueState="Success" selected="{/fragmentData/option4Selected}" />
+                        <CheckBox name = "option4Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" valueState="Success" selected="{quizDetail>/fragmentData/options/3/correctOption}" />
 
                         <Label
                             text="Option5"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 5}" 
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" 
                         />
                         <Input
                             id="idOption5"
-                            name = "option5"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 5}" 
+                            name = "4"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" 
                             change="onFragmentInputChange"
-                            value="{/fragmentData/option5}"
+                            value="{quizDetail>/fragmentData/options/4/option}"
                             required="true"
                         />
-                        <CheckBox name = "option5Selected" text="Correct" visible = "{= ${/fragmentData/NumberOfOptions} >= 5}" valueState="Success" selected="{/fragmentData/option5Selected}" />
+                        <CheckBox name = "option5Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" valueState="Success" selected="{quizDetail>/fragmentData/options/4/correctOption}" />
 
                         <Label
                             text="Option6"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 6}" 
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}" 
                             
                         />
                         <Input
                             id="idOption6"
-                            name = "option6"
-                            visible = "{= ${/fragmentData/NumberOfOptions} >= 6}"
+                            name = "5"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}"
                             change="onFragmentInputChange"
-                            value="{/fragmentData/option6}"
+                            value="{quizDetail>/fragmentData/options/5/option}"
                             required="true"
                         />
-                        <CheckBox name = "option6Selected" text="Correct" visible = "{= ${/fragmentData/NumberOfOptions} >= 6}" valueState="Success" selected="{/fragmentData/option6Selected}" />
+                        <CheckBox name = "option6Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}" valueState="Success" selected="{quizDetail>/fragmentData/options/5/correctOption}" />
 
                     </f:content>
                 </f:SimpleForm>
