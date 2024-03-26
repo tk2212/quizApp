@@ -1,42 +1,55 @@
 {
-  "name": "quizapp",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "^7.5.2",
-    "@sap/cds-dk": "^7.5.0",
-    "@sap/cds-hana": "^2",
-    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
-    "@sap/xssec": "^3",
-    "express": "^4",
-    "mta": "^1.0.6",
-    "passport": "^0"
-  },
-  "devDependencies": {
-    "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^7",
-    "@sap/ux-specification": "^1.120.1",
-    "sqlite3": "^5.1.6"
-  },
-  "scripts": {
-    "start": "cds-serve",
-    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "sqlite",
-        "credentials": {
-          "database": "db/com-mindset-quiz.db"
+    "name": "quizapp",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^7.5.2",
+        "@sap/cds-dk": "^7.5.0",
+        "@sap/cds-hana": "^2",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+        "@sap/xsenv": "^4.2.0",
+        "@sap/xssec": "^3",
+        "express": "^4",
+        "mta": "^1.0.6",
+        "passport": "^0",
+        "request": "^2.88.2"
+    },
+    "devDependencies": {
+        "@cap-js/sqlite": "^1",
+        "@sap/cds-dk": "^7",
+        "@sap/ux-specification": "^1.120.1",
+        "sqlite3": "^5.1.6",
+        "rimraf": "^3.0.2"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+        "undeploy": "cf undeploy quizapp --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "sqlite",
+                "credentials": {
+                    "database": "db/com-mindset-quiz.db"
+                },
+                "csrf": true,
+                "csrfInBatch": true
+            },
+            "[production]": {
+                "db": "hana",
+                "auth": "mocked"
+            }
         }
-      },
-      "[production]": {
-        "db": "hana",
-        "auth": "xsuaa"
-      }
+    },
+    "auth": {
+        "[production]": {
+            "strategy": "mocked"
+        }
     }
-  }
 }

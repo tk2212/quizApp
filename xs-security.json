@@ -2,20 +2,16 @@
   "xsappname": "quizapp",
   "tenant-mode": "dedicated",
   "scopes": [
-    {
-      "name": "$XSAPPNAME.admin",
-      "description": "admin"
-    }
+    
   ],
   "attributes": [],
   "role-templates": [
-    {
-      "name": "admin",
-      "description": "generated",
-      "scope-references": [
-        "$XSAPPNAME.admin"
-      ],
-      "attribute-references": []
-    }
-  ]
+    
+  ],
+  "oauth2-configuration": {
+    "token-validity": 3600,
+    "redirect-uris": [
+      "https://*.cfapps.*.hana.ondemand.com/login/callback"
+    ]
+  }
 }

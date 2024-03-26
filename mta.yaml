@@ -29,9 +29,9 @@ modules:
           url: ~{srv-url}
       - name: quizapp-auth
     parameters:
-      disk-quota: 256M
+      disk-quota: 1024MB
       keep-existing-routes: true
-      memory: 256M
+      memory: 1024MB
   - name: quizapp-db-deployer
     type: hdb
     path: gen/db

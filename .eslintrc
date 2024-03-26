@@ -4,7 +4,9 @@
     "es2022": true,
     "node": true,
     "jest": true,
-    "mocha": true
+    "mocha": true,
+    "npm_config_cache": ".npmcache",
+    "npm_config_prefer_offline": true
   },
   "globals": {
     "SELECT": true,

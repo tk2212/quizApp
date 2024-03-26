@@ -1,0 +1,95 @@
+<mvc:View
+    controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
+		xmlns="sap.m"
+		xmlns:f="sap.f"
+		xmlns:fb="sap.ui.comp.filterbar"
+		xmlns:svm="sap.ui.comp.smartvariants"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <Page title="Exams">
+			<content>
+                <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search="onSearch" filterChange="onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem id="idSerachExamItem" name="title" label="Title" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input name = "title" placeholder="Search Exam"></Input>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem id = "idPrepStatusComboBox" name="draft" label="Preparation Status" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <MultiComboBox
+                                    name="draft"
+                                    selectionChange="onMultiComboBoxSelectionChange"
+                                >
+                                    <core:Item key="true" text="In Progress"/>
+                                    <core:Item key="false" text="Completed"/>
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+                <Toolbar
+                    id="toolbar1"
+                >
+                    <ToolbarSpacer />
+                    <Button text="Create New Exam" press="onPressAddExam" />
+                </Toolbar>
+				<Table
+					id="idQuizTable"
+					items="{
+						path: 'localModel>/Quiz'
+					}"
+                    selectionChange="onQuizTableSelectionChange"
+                    mode="SingleSelectMaster"
+				>
+					<columns>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Title"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="No Of Questions"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Full Marks"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Pass Marks"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Date"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="End Time"/>
+						</Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Status"/>
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Delete"/>
+						</Column>
+					</columns>
+
+					<items>
+						<ColumnListItem vAlign="Middle" >
+							<cells>
+								<!-- <ObjectIdentifier title="{Name}" text="{ProductId}" /> -->
+								<Text text="{localModel>title}" />
+								<Text text="{localModel>noOfQues}" />
+                                <Text text="{localModel>fullMarks}" />
+								<Text text="{localModel>passMarks}" />
+                                <Text text="{localModel>date}" />
+								<Text text="{localModel>endTime}" />
+                                <!-- <Text text="{= ${draft} === true ? 'In Progress': 'Completed'}" /> -->
+                                <Text text="{localModel>draft}" />
+								<Button icon = "sap-icon://delete" press="onPressDeleteItem"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+		</Page>
+</mvc:View>

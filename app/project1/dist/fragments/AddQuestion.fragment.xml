@@ -1,0 +1,129 @@
+<c:FragmentDefinition
+    id="idFragment1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog title="Question Form">
+        <l:Grid
+            defaultSpan="L12 M12 S12"
+            width="auto"
+            id="idGrid"
+        >
+            <l:content>
+                <f:SimpleForm
+                    id="SimpleFormDisplay354"
+                    maxContainerCols="2"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanL="3"
+                    labelSpanM="3"
+                    emptySpanL="4"
+                    emptySpanM="4"
+                    columnsL="2"
+                    columnsM="2"
+                >
+                    <f:content>
+                        <Label text="Question" />
+                        <TextArea id="idQuestion" 
+                        name="content"
+                        change="onFragmentInputChange"
+                        value="{quizDetail>/fragmentData/content}"
+                        required="true"/>
+
+                        <Label text="No of Options" />
+                        <StepInput
+                            id="idNoOfOptions"
+                            min="2"
+                            max="6"
+                            value="{quizDetail>/fragmentData/noOfOptions}"
+                            width="6em"
+                            name="noOfOptions"
+                            change="onFragmentInputChange"
+                        />
+
+                        <Label text="Option1" />
+                        <Input id="idOption1" name = "0" change="onFragmentInputChange" value="{quizDetail>/fragmentData/options/0/option}" required="true"/>
+                        <CheckBox name="option1Selected" text="Correct" valueState="Success" selected="{quizDetail>/fragmentData/options/0/correctOption}" />
+
+
+                        <Label text="Option2" />
+                        <Input id="idOption2" name = "1" change="onFragmentInputChange" value="{quizDetail>/fragmentData/options/1/option}" required="true"/>
+                        <CheckBox name = "option2Selected" text="Correct" valueState="Success" selected="{quizDetail>/fragmentData/options/1/correctOption}" />
+
+                        <Label
+                            text="Option3"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" 
+                        />
+                        <Input
+                            id="idOption3"
+                            name = "2"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" 
+                            change="onFragmentInputChange"
+                            value="{quizDetail>/fragmentData/options/2/option}"
+                            required="true"
+                        />
+                        <CheckBox name = "option3Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 3}" valueState="Success" selected="{quizDetail>/fragmentData/options/2/correctOption}" />
+
+                        <Label
+                            text="Option4"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" 
+                        />
+                        <Input
+                            id="idOption4"
+                            name = "3"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" 
+                            change="onFragmentInputChange"
+                            value="{quizDetail>/fragmentData/options/3/option}"
+                            required="true"
+                        />
+                        <CheckBox name = "option4Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 4}" valueState="Success" selected="{quizDetail>/fragmentData/options/3/correctOption}" />
+
+                        <Label
+                            text="Option5"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" 
+                        />
+                        <Input
+                            id="idOption5"
+                            name = "4"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" 
+                            change="onFragmentInputChange"
+                            value="{quizDetail>/fragmentData/options/4/option}"
+                            required="true"
+                        />
+                        <CheckBox name = "option5Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 5}" valueState="Success" selected="{quizDetail>/fragmentData/options/4/correctOption}" />
+
+                        <Label
+                            text="Option6"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}" 
+                            
+                        />
+                        <Input
+                            id="idOption6"
+                            name = "5"
+                            visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}"
+                            change="onFragmentInputChange"
+                            value="{quizDetail>/fragmentData/options/5/option}"
+                            required="true"
+                        />
+                        <CheckBox name = "option6Selected" text="Correct" visible = "{= ${quizDetail>/fragmentData/noOfOptions} >= 6}" valueState="Success" selected="{quizDetail>/fragmentData/options/5/correctOption}" />
+
+                    </f:content>
+                </f:SimpleForm>
+            </l:content>
+        </l:Grid>
+        <buttons>
+            <Button
+                text="Close"
+                press="closeDialog"
+                type="Reject"
+            />
+            <Button
+                text="Save"
+                press="onSave"
+                type="Accept"
+            />
+        </buttons>
+    </Dialog>
+</c:FragmentDefinition>

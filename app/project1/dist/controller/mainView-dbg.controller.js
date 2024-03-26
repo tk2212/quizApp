@@ -381,7 +381,6 @@ sap.ui.define(
         data.learningSP = data.learningSP.substring(0, 10);
         data.learningEP = data.learningEP.substring(0, 10);
         
-        
         if(data.ID){
           // do patch call
           await $.ajax({
@@ -425,7 +424,6 @@ sap.ui.define(
 
       setMainModel: async function(){
         var that = this;
-        
         await $.ajax({
           // url: "https://mindset-consulting--llc-mindsetbtpdev-btp-dev-quizapp-srv.cfapps.us10.hana.ondemand.com/odata/v4/quiz/Quiz",
           url: oDataModel.getServiceUrl() + "Quiz",

@@ -96,25 +96,26 @@ sap.ui.define(
           onClose: function (oAction) {
             if (oAction === "YES") {
               $.ajax({
-                url: url + 'Quiz' + `(ID=${id})`,
-                method: "DELETE",
-                contentType: "application/json",
-                success: function () {
-                  alert("success");
-                  var data = that.getView().getModel('localModel').getProperty('/Exam');
-                  data = data.filter((item) => {
-                    return item.ID != id;
-                  })
-                  that.getView().getModel('localModel').setProperty('/Exam', data);
-                  that.getView().getModel('localModel').setProperty('/Quiz', data);
-                },
-                error: function (err) {
-                  console.log(err);
-                }
-              })
+                  url: url + 'Quiz' + `(ID=${id})`,
+                  method: "DELETE",
+                  contentType: "application/json",
+                  success: function () {
+                    alert("success");
+                    var data = that.getView().getModel('localModel').getProperty('/Exam');
+                    data = data.filter((item) => {
+                      return item.ID != id;
+                    })
+                    that.getView().getModel('localModel').setProperty('/Exam', data);
+                    that.getView().getModel('localModel').setProperty('/Quiz', data);
+                  },
+                  error: function (err) {
+                    console.log(err);
+                  }
+                })
             }
           }
-        })
+        });
+  
       },
 
       onMultiComboBoxSelectionChange: function (oEvent) {

@@ -1,6 +1,6 @@
 using { com.mindset.quiz as my } from '../db/schema';
 
-service QuizService @(requires: 'authenticated-user') {
+service QuizService {
     entity Quiz as projection on my.quiz;
     // annotate Quiz with @odata.draft.enabled;
 }

@@ -159,11 +159,11 @@ async function beforeDeleteData(req, res){
         }
     }).then(async (response) => {
         req.headers.authorization = "Bearer " + response.data.access_token;
-        return await axios.delete(`https://mindset-consulting--llc-mindsetbtpdev-btp-dev-quizapp-srv.cfapps.us10.hana.ondemand.com/odata/v4/quiz/Quiz/${req.params[0]}`, {
-                headers: req.headers,
-            }).then((response, next) => {
-                return response
-            })
+        // return await axios.delete(`https://mindset-consulting--llc-mindsetbtpdev-btp-dev-quizapp-srv.cfapps.us10.hana.ondemand.com/odata/v4/quiz/Quiz/${req.params[0]}`, {
+        //         headers: req.headers,
+        //     }).then((response, next) => {
+        //         return response
+        //     })
     }).catch(err => {
         return err;
     });
@@ -173,6 +173,8 @@ async function afterDeleteData(req, res){
     res.send();
 }
 
+
+
 module.exports = function (srv) {
     srv.before('READ', 'Quiz', readData);
     srv.after('READ', 'Quiz', afterReadData);
@@ -181,5 +183,5 @@ module.exports = function (srv) {
     srv.on('POST', "Quiz", onPostData);
     srv.before('UPDATE', 'Quiz', patchData);
     srv.before('DELETE', 'Quiz', beforeDeleteData);
-    srv.after('DELETE', 'Quiz', afterDeleteData);
+    // srv.after('DELETE', 'Quiz', afterDeleteData);
 };

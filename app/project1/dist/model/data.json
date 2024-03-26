@@ -1,0 +1,17 @@
+{
+    "Quiz":
+        [
+            {
+                "Topic": "",
+                "Time": "",
+                "NumberOfQuestions": "",
+                "FullMarks": "",
+                "PassMarks": "",
+                "LearningStartPeriod": "",
+                "LearningEndPeriod": "",
+                "Questions": [
+                    
+                ]
+            }    
+        ]
+}
